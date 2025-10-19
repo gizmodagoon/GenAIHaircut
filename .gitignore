@@ -1,6 +1,12 @@
 # Node.js dependencies
 node_modules/
 
+# TypeScript
+*.tsbuildinfo
+
+# Python cache files
+**/__pycache__/
+
 # Logs
 logs
 *.log
@@ -30,9 +36,6 @@ build/
 # Uncomment the one you DON'T use:
 # package-lock.json
 # yarn.lock
-
-# TypeScript
-*.tsbuildinfo
 
 # Optional: coverage reports
 coverage/
