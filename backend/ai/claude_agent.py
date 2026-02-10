@@ -1,4 +1,5 @@
 from strands import Agent
+from strands.models.anthropic import AnthropicModel
 from typing import Dict, Any
 import os
 
@@ -8,36 +9,40 @@ trace_attributes = {
     "user": "haircut-assistant"
 }
 
-# AWS client configuration for Claude access via Bedrock
-# These environment variables should be set in the deployment environment
-AWS_REGION = os.environ.get("AWS_REGION", "us-west-2")
-
 def create_haircut_agent() -> Agent:
     """
     Create and configure a Claude agent for haircut analysis.
-    
+
+    Requires ANTHROPIC_API_KEY environment variable to be set.
+
     Returns:
         Configured Strands Agent instance
     """
     system_prompt = """
         You are a haircut analysis expert. Analyze haircut requests and provide insights.
-        
+
         When analyzing haircuts, consider:
         1. Style characteristics
         2. Technique used
         3. Suitability for different face shapes
         4. Maintenance requirements
-        
+
         Provide your analysis in a clear, structured format.
     """
-    
+
+    model = AnthropicModel(
+        client_args={"api_key": os.environ.get("ANTHROPIC_API_KEY")},
+        model_id="claude-sonnet-4-5-20250929",
+        max_tokens=1024,
+    )
+
     agent = Agent(
         system_prompt=system_prompt,
         name="Haircut Analysis Agent",
-        model="us.anthropic.claude-3-7-sonnet-20250219-v1:0",
+        model=model,
         trace_attributes=trace_attributes
     )
-    
+
     return agent
 
 def get_haircut_analysis(prompt: str) -> Dict[str, Any]:

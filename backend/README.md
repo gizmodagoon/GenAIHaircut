@@ -16,7 +16,7 @@ FastAPI-based REST API that provides endpoints for:
 
 Claude AI integration using the Strands Python SDK:
 - Haircut analysis capabilities
-- Claude 3.7 Sonnet model integration
+- Claude Sonnet 4.5 model integration via Anthropic API
 - Example scripts for testing
 
 ## Setup
@@ -26,25 +26,10 @@ Claude AI integration using the Strands Python SDK:
    pip install -r requirements.txt
    ```
 
-2. Set up your AWS credentials for accessing Claude through AWS Bedrock:
-   
-   ```bash
-   # Configure AWS credentials
-   export AWS_ACCESS_KEY_ID=your_access_key
-   export AWS_SECRET_ACCESS_KEY=your_secret_key
-   export AWS_REGION=us-west-2  # or your preferred region
-   ```
+2. Set your Anthropic API key:
 
-   You can also use AWS credential files:
    ```bash
-   # ~/.aws/credentials
-   [default]
-   aws_access_key_id = your_access_key
-   aws_secret_access_key = your_secret_key
-   
-   # ~/.aws/config
-   [default]
-   region = us-west-2
+   export ANTHROPIC_API_KEY=your_api_key
    ```
 
 ## Running the Application
@@ -118,6 +103,6 @@ print(response)
 python -m ai.example
 ```
 
-## AWS Bedrock Access
+## Anthropic API Access
 
-Ensure your AWS account has access to the Claude 3.7 Sonnet model in AWS Bedrock and that the IAM user/role you're using has permissions to invoke the model.
+Ensure you have a valid Anthropic API key with access to the Claude Sonnet 4.5 model. You can obtain one at [console.anthropic.com](https://console.anthropic.com).
