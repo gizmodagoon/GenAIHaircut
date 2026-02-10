@@ -32,6 +32,15 @@ const LandingPage: React.FC = () => {
         >
           View Your History
         </Button>
+        <Button
+          variant="outlined"
+          color="secondary"
+          size="large"
+          sx={{ ml: 2 }}
+          onClick={() => navigate("/analyze")}
+        >
+          Ask the AI
+        </Button>
       </Box>
 
       <Box mt={6}>
