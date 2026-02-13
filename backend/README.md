@@ -34,10 +34,12 @@ PostgreSQL database layer using SQLAlchemy (async) with Alembic migrations:
    pip install -r requirements.txt
    ```
 
-2. Set your Anthropic API key:
+2. Create a `.env` file in the `api/` directory with the following variables:
 
-   ```bash
-   export ANTHROPIC_API_KEY=your_api_key
+   ```env
+   ANTHROPIC_API_KEY=your_anthropic_api_key
+   DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/app
+   TAVILY_API_KEY=your_tavily_api_key
    ```
 
 3. Run PostgreSQL:
@@ -51,13 +53,7 @@ PostgreSQL database layer using SQLAlchemy (async) with Alembic migrations:
      -d postgres:16
    ```
 
-4. Set your database URL:
-
-   ```bash
-   export DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/app
-   ```
-
-5. Run Alembic migrations:
+4. Run Alembic migrations:
 
    ```bash
    alembic upgrade head
@@ -156,6 +152,7 @@ response = agent("What haircut would suit a round face?")
 print(response)
 ```
 
-## Anthropic API Access
+## API Keys
 
-Ensure you have a valid Anthropic API key with access to the Claude Sonnet 4.5 model. You can obtain one at [console.anthropic.com](https://console.anthropic.com).
+- **Anthropic**: Obtain an API key with access to Claude Sonnet 4.5 at [console.anthropic.com](https://console.anthropic.com)
+- **Tavily**: Obtain an API key for web search at [tavily.com](https://tavily.com)
