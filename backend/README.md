@@ -124,26 +124,6 @@ Returns all haircut records from the database.
 
 Once the server is running, open the interactive Swagger UI at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) to test all endpoints directly from your browser.
 
-## Direct AI Usage
-
-You can also use the AI module directly in your code:
-
-```python
-from ai.barber_agent import get_barber_response
-
-result = get_barber_response("What haircut would suit a round face?")
-print(result["response"])
-```
-
-Or use the agent directly:
-```python
-from ai.barber_agent import create_barber_agent
-
-agent = create_barber_agent()
-response = agent("What haircut would suit a round face?")
-print(response)
-```
-
 ## API Keys
 
 - **Anthropic**: Obtain an API key with access to Claude Sonnet 4.5 at [console.anthropic.com](https://console.anthropic.com)
