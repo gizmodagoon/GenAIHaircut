@@ -14,10 +14,9 @@ FastAPI-based REST API that provides endpoints for:
 
 ### 2. AI Module (`/ai`)
 
-Claude AI integration using the Strands Python SDK:
-- Haircut analysis capabilities
-- Claude Sonnet 4.5 model integration via Anthropic API
-- Example scripts for testing
+Claude AI integration using the Strands Agents SDK:
+- Barber Agent powered by Claude Sonnet 4.5 via Anthropic API
+- Web search capabilities via Tavily tools (search, extract, crawl, map)
 
 ## Setup
 
@@ -54,8 +53,8 @@ http://127.0.0.1:8000/docs
 ### GET `/haircuts`
 Returns a list of available haircuts.
 
-### POST `/haircuts/analyze`
-Analyzes a haircut query using Claude AI.
+### POST `/haircuts/ask`
+Ask the barber agent a question about haircuts or hair-related topics.
 
 Request body:
 ```json
@@ -69,38 +68,31 @@ Request body:
 You can test the endpoint using curl:
 
 ```bash
-curl -X POST "http://127.0.0.1:8000/haircuts/analyze" \
+curl -X POST "http://127.0.0.1:8000/haircuts/ask" \
   -H "Content-Type: application/json" \
   -d '{"prompt": "What haircuts look good on Asians?"}'
 ```
 
-This will return a JSON response with the AI's analysis of the prompt.
+This will return a JSON response with the barber agent's response.
 
 ## Direct AI Usage
 
 You can also use the AI module directly in your code:
 
 ```python
-from ai.claude_agent import get_haircut_analysis
+from ai.barber_agent import get_barber_response
 
-result = get_haircut_analysis("What haircut would suit a round face?")
-print(result["analysis"])
+result = get_barber_response("What haircut would suit a round face?")
+print(result["response"])
 ```
 
 Or use the agent directly:
 ```python
-from ai.claude_agent import create_haircut_agent
+from ai.barber_agent import create_barber_agent
 
-agent = create_haircut_agent()
+agent = create_barber_agent()
 response = agent("What haircut would suit a round face?")
 print(response)
-```
-
-## Testing the AI Module
-
-```bash
-# From the backend directory
-python -m ai.example
 ```
 
 ## Anthropic API Access

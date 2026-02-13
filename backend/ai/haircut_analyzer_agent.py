@@ -62,5 +62,5 @@ def get_haircut_analysis(prompt: str) -> Dict[str, Any]:
     
     # Extract and return the response
     return {
-        "analysis": response,
+        "response": str(response),
     }

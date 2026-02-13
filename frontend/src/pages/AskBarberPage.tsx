@@ -6,17 +6,16 @@ import {
   Button,
   CircularProgress,
   Alert,
-  Box,
-  Divider,
+  Box
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import api from "../api";
 
-const AnalyzePage: React.FC = () => {
+const AskBarberPage: React.FC = () => {
   const navigate = useNavigate();
   const [prompt, setPrompt] = useState("");
-  const [analysis, setAnalysis] = useState<any>(null);
+  const [response, setResponse] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,10 +23,10 @@ const AnalyzePage: React.FC = () => {
     if (!prompt.trim()) return;
     setLoading(true);
     setError(null);
-    setAnalysis(null);
+    setResponse(null);
     api
-      .post<{ analysis: any }>("/haircuts/analyze", { prompt })
-      .then((res) => setAnalysis(res.data.analysis.message.content))
+      .post<{ response: any }>("/haircuts/ask", { prompt: prompt })
+      .then((res) => setResponse(res.data.response))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   };
@@ -52,6 +51,7 @@ const AnalyzePage: React.FC = () => {
           variant="outlined"
           fullWidth
           value={prompt}
+          disabled={loading}
           onChange={(e) => setPrompt(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !loading) handleSubmit();
@@ -69,20 +69,13 @@ const AnalyzePage: React.FC = () => {
 
       {loading && <CircularProgress />}
       {error && <Alert severity="error">{error}</Alert>}
-      {analysis && (
+      {response && (
         <Box sx={{ mt: 2 }}>
-          <Typography variant="h6" gutterBottom>
-            AI Response
-          </Typography>
-          <Divider sx={{ mb: 2 }} />
-          {analysis.map((item: any, index: number) => (
-            <ReactMarkdown key={index}>{item.text}</ReactMarkdown>
-          ))}
-          
+          {response && <ReactMarkdown key={response}>{response}</ReactMarkdown>}
         </Box>
       )}
     </Container>
   );
 };
 
-export default AnalyzePage;
+export default AskBarberPage;

@@ -4,7 +4,7 @@ GenAI Haircut Tracker is a web application that helps clients and barbers track 
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) (v18 or later)
+- [Node.js](https://nodejs.org/) (v20.19+ or v22.12+)
 - npm (included with Node.js)
 
 ## Local Development Setup

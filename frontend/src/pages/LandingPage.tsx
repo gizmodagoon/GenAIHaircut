@@ -26,7 +26,7 @@ const LandingPage: React.FC = () => {
         </Button>
         <Button
           variant="outlined"
-          color="primary"
+          color="secondary"
           size="large"
           onClick={() => navigate("/profile")}
         >

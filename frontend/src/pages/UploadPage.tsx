@@ -1,9 +1,19 @@
 import React from "react";
-import { Container, Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom"
 
 const UploadPage: React.FC = () => {
+  const navigate = useNavigate();
   return (
     <Container sx={{ mt: 8 }}>
+        <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => navigate("/")}
+        sx={{ mb: 2 }}
+      >
+        Back to Home
+      </Button>
       <Typography variant="h4" gutterBottom>
         Upload Your Haircut
       </Typography>
