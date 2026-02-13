@@ -37,7 +37,7 @@ const LandingPage: React.FC = () => {
           color="secondary"
           size="large"
           sx={{ ml: 2 }}
-          onClick={() => navigate("/analyze")}
+          onClick={() => navigate("/ask")}
         >
           Ask the AI
         </Button>

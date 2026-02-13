@@ -4,19 +4,28 @@ This backend service powers the GenAI Haircut application, providing haircut ana
 
 ## Modules
 
-The backend consists of two main modules:
+The backend consists of three main modules:
 
 ### 1. API Module (`/api`)
 
 FastAPI-based REST API that provides endpoints for:
-- Getting haircut information
-- Analyzing haircuts using Claude AI
+- Asking the barber agent hair-related questions
+- Analyzing haircut images using Claude AI
+- CRUD operations for haircuts (backed by PostgreSQL)
 
 ### 2. AI Module (`/ai`)
 
 Claude AI integration using the Strands Agents SDK:
 - Barber Agent powered by Claude Sonnet 4.5 via Anthropic API
 - Web search capabilities via Tavily tools (search, extract, crawl, map)
+- Haircut image analysis agent
+
+### 3. Database Module (`/db`)
+
+PostgreSQL database layer using SQLAlchemy (async) with Alembic migrations:
+- Async session management via `asyncpg`
+- `Haircut` model with CRUD operations
+- Alembic for schema migrations
 
 ## Setup
 
@@ -30,6 +39,38 @@ Claude AI integration using the Strands Agents SDK:
    ```bash
    export ANTHROPIC_API_KEY=your_api_key
    ```
+
+3. Run PostgreSQL:
+
+   ```bash
+   docker run --name fastapi-postgres \
+     -e POSTGRES_USER=postgres \
+     -e POSTGRES_PASSWORD=postgres \
+     -e POSTGRES_DB=app \
+     -p 5432:5432 \
+     -d postgres:16
+   ```
+
+4. Set your database URL:
+
+   ```bash
+   export DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/app
+   ```
+
+5. Run Alembic migrations:
+
+   ```bash
+   alembic upgrade head
+   ```
+
+## Alembic Migrations
+
+To sync local model changes with the PostgreSQL database:
+
+```bash
+alembic revision --autogenerate -m "describe your change"
+alembic upgrade head
+```
 
 ## Running the Application
 
@@ -50,9 +91,6 @@ http://127.0.0.1:8000/docs
 
 ## API Endpoints
 
-### GET `/haircuts`
-Returns a list of available haircuts.
-
 ### POST `/haircuts/ask`
 Ask the barber agent a question about haircuts or hair-related topics.
 
@@ -62,6 +100,29 @@ Request body:
   "prompt": "What haircut would suit a round face?"
 }
 ```
+
+### POST `/haircuts/analyze`
+Analyze a haircut image using Claude AI.
+
+Request body:
+```json
+{
+  "image": "<base64-encoded image or URL>"
+}
+```
+
+### POST `/haircuts`
+Create a new haircut record in the database.
+
+Request body:
+```json
+{
+  "style": "mid fade"
+}
+```
+
+### GET `/haircuts`
+Returns all haircut records from the database.
 
 ## Testing the API
 

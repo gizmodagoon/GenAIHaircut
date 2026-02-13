@@ -1,8 +1,24 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.routes import haircuts
+from contextlib import asynccontextmanager
+from fastapi import FastAPI
+from db.db import engine, Base
 
-app = FastAPI(title="GenAI Haircut Tracker API", version="0.1")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # STARTUP
+    print("Starting DB...")
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+    yield
+
+    # SHUTDOWN
+    print("Closing DB...")
+    await engine.dispose()
+
+app = FastAPI(title="GenAI Haircut Tracker API", version="0.1", lifespan=lifespan)
 
 # CORS configuration
 origins = [
