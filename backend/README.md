@@ -87,7 +87,7 @@ http://127.0.0.1:8000/docs
 
 ## API Endpoints
 
-### POST `/haircuts/ask`
+### POST `/barbers/ask`
 Ask the barber agent a question about haircuts or hair-related topics.
 
 Request body:

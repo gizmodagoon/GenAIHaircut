@@ -25,7 +25,7 @@ const AskBarberPage: React.FC = () => {
     setError(null);
     setResponse(null);
     api
-      .post<{ response: any }>("/haircuts/ask", { prompt: prompt })
+      .post<{ response: any }>("/barbers/ask", { prompt: prompt })
       .then((res) => setResponse(res.data.response))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));

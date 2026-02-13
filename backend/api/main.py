@@ -1,9 +1,6 @@
-from dotenv import load_dotenv
-load_dotenv()
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes import haircuts
+from api.routes import haircuts, barbers
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from db.db import engine, Base
@@ -39,6 +36,7 @@ app.add_middleware(
 
 # Include routes
 app.include_router(haircuts.router)
+app.include_router(barbers.router)
 
 @app.get("/")
 def root():

@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
-from ai.barber_agent import get_barber_response
 from ai.haircut_analyzer_agent import get_haircut_analysis
 from db.crud import db_create_haircut, db_get_haircuts
 from db.schemas import HaircutCreate, HaircutOut
@@ -9,28 +8,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter()
 
-class AskBarberRequest(BaseModel):
-    prompt: str
-
 class AnalyzeHaircutRequest(BaseModel):
-    image: str
-    
-# @router.get("/haircuts")
-# def get_haircuts():
-#     return [
-#         {"id": 1, "style": "mid fade"},
-#         {"id": 2, "style": "layered cut"}
-#     ]
-
-@router.post("/haircuts/ask")
-def ask_barber(query: AskBarberRequest):
-    """
-    Ask the barber agent a question about haircuts or hair-related topics.
-    
-    Request body should contain a 'prompt' field with the user's question or request.
-    """
-    result = get_barber_response(query.prompt)
-    return result
+    image: str   
 
 @router.post("/haircuts/analyze")
 def analyze_haircut(query: AnalyzeHaircutRequest):
