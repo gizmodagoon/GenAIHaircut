@@ -122,15 +122,7 @@ Returns all haircut records from the database.
 
 ## Testing the API
 
-You can test the endpoint using curl:
-
-```bash
-curl -X POST "http://127.0.0.1:8000/haircuts/ask" \
-  -H "Content-Type: application/json" \
-  -d '{"prompt": "What haircuts look good on Asians?"}'
-```
-
-This will return a JSON response with the barber agent's response.
+Once the server is running, open the interactive Swagger UI at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) to test all endpoints directly from your browser.
 
 ## Direct AI Usage
 
