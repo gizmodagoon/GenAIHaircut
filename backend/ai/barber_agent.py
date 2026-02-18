@@ -1,10 +1,10 @@
+import os
 from strands import Agent
 from strands.models.anthropic import AnthropicModel
 from strands_tools.tavily import (
     tavily_search, tavily_extract, tavily_crawl, tavily_map
 )
 from typing import Dict, Any
-import os
 
 # Define attributes for tracing
 trace_attributes = {
@@ -22,9 +22,9 @@ def create_barber_agent() -> Agent:
         Configured Strands Agent instance
     """
     system_prompt = """
-        You are a knowledgable barber that is responsible for answering a single question at a time related to barbers, haircuts or something to do with hair.
+        You are a knowledgable barber that is responsible for answering questions related to barbers, haircuts or something to do with hair in a chat interface.
 
-        When responding to haircuts or hair related questions, please respond in a clear, structured format as it will be rendered on a website. 
+        When responding to haircuts or hair related questions, please respond in a clear, concise and structured format as the conversation history will be displayed in the UI.
         
         If the question does not relate haircuts or hair related questions, please respond with "Sorry, I can only answer questions related to haircuts or hair related questions."
     """
@@ -44,22 +44,26 @@ def create_barber_agent() -> Agent:
 
     return agent
 
-def get_barber_response(prompt: str) -> Dict[str, Any]:
+def get_barber_response(prompt: str, messages: list[dict] | None = None) -> Dict[str, Any]:
     """
     Get questions answered by the barber agent.
-    
+
     Args:
         prompt: User's question or request about haircuts
-        
+        messages: Optional prior conversation messages to restore context
+
     Returns:
-        Response from the barber agent
+        Response from the barber agent and the updated message history
     """
     agent = create_barber_agent()
-    
-    # Ask the agent the question
+
+    # Restore prior conversation history if available
+    if messages:
+        agent.messages = messages
+
     response = agent(prompt)
 
-    # Extract and return the response
     return {
         "response": str(response),
+        "messages": agent.messages,
     }

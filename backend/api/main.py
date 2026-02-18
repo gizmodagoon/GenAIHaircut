@@ -3,11 +3,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.routes import haircuts, barbers
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from db.db import engine, Base
+from db.db import engine, Base, REDIS_URL
+from redis import asyncio as aioredis
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # STARTUP
+    print("Connecting to local Redis instance...")
+    app.state.redis = await aioredis.from_url(
+        REDIS_URL, 
+        decode_responses=True
+    )
+
     print("Starting DB...")
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
@@ -15,6 +22,9 @@ async def lifespan(app: FastAPI):
     yield
 
     # SHUTDOWN
+    print("Closing Redis connection...")
+    await app.state.redis.aclose()
+
     print("Closing DB...")
     await engine.dispose()
 

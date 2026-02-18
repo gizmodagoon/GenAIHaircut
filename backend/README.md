@@ -26,6 +26,7 @@ PostgreSQL database layer using SQLAlchemy (async) with Alembic migrations:
 - Async session management via `asyncpg`
 - `Haircut` model with CRUD operations
 - Alembic for schema migrations
+- Redis integration for chat session caching
 
 ## Setup
 
@@ -40,6 +41,7 @@ PostgreSQL database layer using SQLAlchemy (async) with Alembic migrations:
    ANTHROPIC_API_KEY=your_anthropic_api_key
    DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/app
    TAVILY_API_KEY=your_tavily_api_key
+   REDIS_URL=redis://localhost:6379
    ```
 
 3. Run PostgreSQL:
@@ -53,7 +55,15 @@ PostgreSQL database layer using SQLAlchemy (async) with Alembic migrations:
      -d postgres:16
    ```
 
-4. Run Alembic migrations:
+4. Run Redis:
+
+   ```bash
+   docker run --name fastapi-redis \
+     -p 6379:6379 \
+     -d redis:7
+   ```
+
+5. Run Alembic migrations:
 
    ```bash
    alembic upgrade head
@@ -88,12 +98,13 @@ http://127.0.0.1:8000/docs
 ## API Endpoints
 
 ### POST `/barbers/ask`
-Ask the barber agent a question about haircuts or hair-related topics.
+Ask the barber agent a question about haircuts or hair-related topics. Conversation history is maintained per session via Redis.
 
 Request body:
 ```json
 {
-  "prompt": "What haircut would suit a round face?"
+  "prompt": "What haircut would suit a round face?",
+  "session_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
 }
 ```
 
