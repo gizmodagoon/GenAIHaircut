@@ -102,7 +102,7 @@ const ChatWithAIPage: React.FC = () => {
         <IconButton onClick={() => navigate("/")} size="small">
           <ArrowBackIcon />
         </IconButton>
-        <Typography variant="h5">Ask the Barber</Typography>
+        <Typography variant="h5">Ask the AI Barber</Typography>
       </Box>
 
       {sessionLoading && (
