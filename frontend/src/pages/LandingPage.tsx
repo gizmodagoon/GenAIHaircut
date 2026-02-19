@@ -37,9 +37,9 @@ const LandingPage: React.FC = () => {
           color="secondary"
           size="large"
           sx={{ ml: 2 }}
-          onClick={() => navigate("/ask")}
+          onClick={() => navigate("/chat")}
         >
-          Ask the AI
+          Chat With AI Barber
         </Button>
       </Box>
 

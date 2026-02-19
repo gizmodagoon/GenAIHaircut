@@ -11,7 +11,7 @@ router = APIRouter()
 class AnalyzeHaircutRequest(BaseModel):
     image: str   
 
-@router.post("/haircuts/analyze")
+@router.post("/haircuts/analysis")
 def analyze_haircut(query: AnalyzeHaircutRequest):
     """
     Analyze a haircut query using Claude AI.
@@ -20,7 +20,6 @@ def analyze_haircut(query: AnalyzeHaircutRequest):
     """
     result = get_haircut_analysis(query.image)
     return result
-
 
 @router.post("/haircuts", response_model=HaircutOut)
 async def create_haircut(haircut: HaircutCreate, db: AsyncSession = Depends(get_db)):

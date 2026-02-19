@@ -1,5 +1,6 @@
 import os
 from strands import Agent
+from strands.types.content import Messages
 from strands.models.anthropic import AnthropicModel
 from strands_tools.tavily import (
     tavily_search, tavily_extract, tavily_crawl, tavily_map
@@ -12,7 +13,7 @@ trace_attributes = {
     "user": "haircut-assistant"
 }
 
-def create_barber_agent() -> Agent:
+def create_barber_agent(messages:  Messages | None = None) -> Agent:
     """
     Create and configure a Claude agent for haircut analysis.
 
@@ -37,6 +38,7 @@ def create_barber_agent() -> Agent:
     agent = Agent(
         system_prompt=system_prompt,
         name="Barber Agent",
+        messages=messages,
         model=model,
         trace_attributes=trace_attributes,
         tools=[tavily_search,tavily_extract, tavily_crawl, tavily_map]
@@ -44,7 +46,7 @@ def create_barber_agent() -> Agent:
 
     return agent
 
-def get_barber_response(prompt: str, messages: list[dict] | None = None) -> Dict[str, Any]:
+def get_barber_response(prompt: str, messages:  Messages | None = None) -> Dict[str, Any]:
     """
     Get questions answered by the barber agent.
 
@@ -55,12 +57,7 @@ def get_barber_response(prompt: str, messages: list[dict] | None = None) -> Dict
     Returns:
         Response from the barber agent and the updated message history
     """
-    agent = create_barber_agent()
-
-    # Restore prior conversation history if available
-    if messages:
-        agent.messages = messages
-
+    agent = create_barber_agent(messages)
     response = agent(prompt)
 
     return {

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "../pages/LandingPage";
 import UploadPage from "../pages/UploadPage";
 import ProfilePage from "../pages/ProfilePage";
-import AskBarberPage from "../pages/AskBarberPage";
+import ChatWithAIPage from "../pages/ChatWithAIPage";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/" element={<LandingPage />} />
         <Route path="/upload" element={<UploadPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/ask" element={<AskBarberPage />} />
+        <Route path="/chat" element={<ChatWithAIPage />} />
       </Routes>
     </Router>
   );

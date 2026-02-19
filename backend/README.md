@@ -97,18 +97,30 @@ http://127.0.0.1:8000/docs
 
 ## API Endpoints
 
-### POST `/barbers/ask`
-Ask the barber agent a question about haircuts or hair-related topics. Conversation history is maintained per session via Redis.
+### POST `/barbers/chat-sessions`
+Create a new chat session. Returns a `session_id` used for subsequent messages.
 
-Request body:
+Response:
 ```json
 {
-  "prompt": "What haircut would suit a round face?",
   "session_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
 }
 ```
 
-### POST `/haircuts/analyze`
+### POST `/barbers/chat-sessions/{session_id}/messages`
+Send a message to the barber agent within an existing chat session. Conversation history is maintained per session via Redis.
+
+Request body:
+```json
+{
+  "prompt": "What haircut would suit a round face?"
+}
+```
+
+### DELETE `/barbers/chat-sessions/{session_id}`
+Delete a chat session and its conversation history from Redis.
+
+### POST `/haircuts/analysis`
 Analyze a haircut image using Claude AI.
 
 Request body:
